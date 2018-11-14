@@ -34,7 +34,7 @@ public class Main {
                 System.out.flush();
             }
             else {
-                System.out.println("F_NOT_FOUND");
+                System.out.println("F_NOT_FOUND "+line);
                 System.out.flush();
             }
         }
