@@ -4,6 +4,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 
 import java.io.*;
+import java.util.Base64;
 import java.util.Optional;
 import java.util.Stack;
 
@@ -26,6 +27,9 @@ public class Main {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String line;
         while ((line = reader.readLine()) != null) {
+            if (line.startsWith("b/")) {
+                line = new String(Base64.getDecoder().decode(line.substring(2)), "UTF-8");
+            }
             File file = new File(line);
             if (file.exists()) {
                 System.out.println("PROCESSING "+file.toString());
