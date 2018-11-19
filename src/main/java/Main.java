@@ -10,6 +10,8 @@ import java.util.Stack;
 
 public class Main {
 
+    private static FileMap lastParsedFile;
+
     public static void main(String[] args) throws IOException {
 
         if (args.length > 0) {
@@ -45,6 +47,7 @@ public class Main {
     }
 
     private static void processFile(File file) throws FileNotFoundException {
+        lastParsedFile = new FileMap(file);
         int indexer = 0;
         Stack<TreeNode> stack = new Stack<>();
 
@@ -65,64 +68,64 @@ public class Main {
     }
 
     private static String recalculateRange(Range range, File file) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            int index = 0;
-            int line = 1;
-            int carry = 0;
-
-            while (line < range.begin.line) {
-                carry = 0;
-                index++;
-                char c = (char) reader.read();
-                if (c == '\r') {
-                    line++;
-                    c = (char) reader.read();
-                    index++;
-                    if (c == '\n') {
-                        //Nothing
-                    }
-                    else if (c == '\r') {
-                        line++;
-                    }
-                    else {
-                        carry = 1;
-                    }
-                }
-                else if (c == '\n') {
-                    line++;
-                }
-            }
-
-            int beginIndex = index - carry + range.begin.column;
-            while (line < range.end.line) {
-                carry = 0;
-                index++;
-                char c = (char) reader.read();
-                if (c == '\r') {
-                    line++;
-                    c = (char) reader.read();
-                    index++;
-                    if (c == '\n') {
-                        //Nothing
-                    }
-                    else if (c == '\r') {
-                        line++;
-                    }
-                    else {
-                        carry = 1;
-                    }
-                }
-                else if (c == '\n') {
-                    line++;
-                }
-            }
-            int endIndex = index - carry + range.end.column;
-
-            return beginIndex + ":" + endIndex;
-
-        } catch (IOException e) {
-        }
-        return "";
+//        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+//            int index = 0;
+//            int line = 1;
+//            int carry = 0;
+//
+//            while (line < range.begin.line) {
+//                carry = 0;
+//                index++;
+//                char c = (char) reader.read();
+//                if (c == '\r') {
+//                    line++;
+//                    c = (char) reader.read();
+//                    index++;
+//                    if (c == '\n') {
+//                        //Nothing
+//                    }
+//                    else if (c == '\r') {
+//                        line++;
+//                    }
+//                    else {
+//                        carry = 1;
+//                    }
+//                }
+//                else if (c == '\n') {
+//                    line++;
+//                }
+//            }
+//
+//            int beginIndex = index - carry + range.begin.column;
+//            while (line < range.end.line) {
+//                carry = 0;
+//                index++;
+//                char c = (char) reader.read();
+//                if (c == '\r') {
+//                    line++;
+//                    c = (char) reader.read();
+//                    index++;
+//                    if (c == '\n') {
+//                        //Nothing
+//                    }
+//                    else if (c == '\r') {
+//                        line++;
+//                    }
+//                    else {
+//                        carry = 1;
+//                    }
+//                }
+//                else if (c == '\n') {
+//                    line++;
+//                }
+//            }
+//            int endIndex = index - carry + range.end.column;
+//
+//            return beginIndex + ":" + endIndex;
+//
+//        } catch (IOException e) {
+//        }
+        return lastParsedFile.getOffset(range.begin) + ":" + lastParsedFile.getOffset(range.end);
     }
 
     private static class TreeNode {
