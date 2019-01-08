@@ -13,9 +13,9 @@ public class FileMap {
         this.lineOffsets = new ArrayList<>();
         this.lineOffsets.add(0);
         this.lineOffsets.add(0); //Lines are counted from first to last
-        try (FileInputStream reader = new FileInputStream(file)) {
+        try (InputStreamReader reader = new InputStreamReader(new FileInputStream(file), "UTF-8")) {
             int index = 0;
-            while (reader.available() > 0) {
+            while (reader.ready()) {
                 char c = (char) reader.read();
                 index++;
                 if (c < 0) break;
