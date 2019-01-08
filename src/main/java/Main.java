@@ -58,10 +58,12 @@ public class Main {
             for (Node node: tnode.node.getChildNodes()) {
                 Optional<Range> range = node.getRange();
                 String strRange = "";
+                String origRange = "";
                 if (range.isPresent()) {
                     strRange = recalculateRange(range.get(), file);
+                    origRange = range.get().begin + ", " + range.get().end;
                 }
-                System.out.println("N:"+indexer+":"+tnode.id+":"+node.getMetaModel().getTypeNameGenerified()+":["+strRange+"]");
+                System.out.println("N:"+indexer+":"+tnode.id+":"+node.getMetaModel().getTypeNameGenerified()+":["+strRange+"]"+":origRange["+origRange+"]");
                 stack.push(new TreeNode(indexer++, node));
             }
         }
