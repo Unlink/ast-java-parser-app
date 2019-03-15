@@ -127,7 +127,7 @@ public class Main {
 //
 //        } catch (IOException e) {
 //        }
-        return lastParsedFile.getOffset(range.begin)-1 + ":" + lastParsedFile.getOffset(range.end)+1;
+        return (lastParsedFile.getOffset(range.begin)-1) + ":" + (lastParsedFile.getOffset(range.end)+1);
     }
 
     private static class TreeNode {
